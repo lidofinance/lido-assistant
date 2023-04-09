@@ -1,5 +1,4 @@
-from src.chat_model import chat
-from src.chat_agent import get_agent
+from src.lido_agent import get_agent
 
 
 def run():
