@@ -7,7 +7,8 @@ template = """Answer the following questions as best as you can. You have access
 
 {tools}
 
-Do not include information not explicitly asked for. Answer the question that the user asked, with no additional information.
+Do not include information not explicitly asked for. Answer only the original question. 
+Do not guess or assume what the user may also want to know, or what their follow-up question might be.
 
 Use the following format:
 
