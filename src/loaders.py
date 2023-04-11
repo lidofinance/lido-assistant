@@ -21,7 +21,8 @@ class DocsLoader(WebBaseLoader):
         soup: BeautifulSoup = self._scrape(path)
         self.process_page(soup, path)
         text = soup.find(class_="markdown").get_text("\n", strip=True)
-        metadata = {"source": path, "html": soup.decode(), "title": soup.find("h1").text}
+        metadata = {"source": path, "html": soup.decode(),
+                    "title": soup.find("h1").text}
         docs.append(Document(page_content=text, metadata=metadata))
         print("Parse page", path)
 
@@ -37,8 +38,10 @@ class DocsLoader(WebBaseLoader):
             self.process_page(soup, next_page_link)
             self.known_pages.add(next_page_link)
 
-            text = soup.find(class_="markdown").get_text(separator="\n", strip=True)
-            metadata = {"source": next_page_link, "html": soup.decode(), "title": soup.find("h1").text}
+            text = soup.find(class_="markdown").get_text(
+                separator="\n", strip=True)
+            metadata = {"source": next_page_link,
+                        "html": soup.decode(), "title": soup.find("h1").text}
             docs.append(Document(page_content=text, metadata=metadata))
 
             next_page = soup.find(class_="pagination-nav__item--next")
@@ -66,7 +69,8 @@ def parse_addresses(texts: dict):
             if postfix:
                 alias = alias + "_" + postfix
             if alias not in address_dict:
-                address_dict[urllib.parse.urlsplit(url).path + "_" + alias] = address
+                address_dict[urllib.parse.urlsplit(
+                    url).path + "_" + alias] = address
 
     return address_dict
 
@@ -86,6 +90,7 @@ def replace_addresses_with_aliases(text, address_dict, replace_template="$[{}]")
 
 
 def replace_aliases_with_addresses(text, address_dict, replace_template="{}"):
+    print("Called replace_aliases_with_addresses", text)
     alias_pattern = r'\$\[(.*)\]'
     address_pattern = re.compile(r"0x[a-fA-F0-9]{40}")
 
@@ -120,10 +125,12 @@ def parse_addresses_from_html(html):
     for item in items:
         parent_key = ""
         if item.find_parent('li'):
-            parent_key = ''.join([content.text for content in item.find_parent("li").contents if content.name != 'ul']).strip()
+            parent_key = ''.join([content.text for content in item.find_parent(
+                "li").contents if content.name != 'ul']).strip()
 
         # Get the current item text without children's text
-        item_text = ''.join([content.text for content in item.contents if content.name != 'ul']).strip()
+        item_text = ''.join(
+            [content.text for content in item.contents if content.name != 'ul']).strip()
 
         # Find the address in the current item text
         address_match = address_pattern.search(item_text)
@@ -147,18 +154,21 @@ def get_addresses_from_docs(docs):
     addresses = {}
     for doc in docs:
         if "deployed-contracts" in doc.metadata["source"]:
-            addresses = {**addresses, **(parse_addresses_from_html(doc.metadata["html"]))}
+            addresses = {**addresses, **
+                         (parse_addresses_from_html(doc.metadata["html"]))}
     return addresses
 
 
 def replace_addresses_with_aliases_in_docs(docs, addresses):
     for doc in docs:
-        doc.page_content = replace_addresses_with_aliases(doc.page_content, addresses)
+        doc.page_content = replace_addresses_with_aliases(
+            doc.page_content, addresses)
     return docs
 
 
 if __name__ == '__main__':
-    loader = DocsLoader(["https://docs.lido.fi", "https://docs.lido.fi/deployed-contracts/goerli/"])
+    loader = DocsLoader(
+        ["https://docs.lido.fi", "https://docs.lido.fi/deployed-contracts/goerli/"])
     docs = loader.load()
     addresses = get_addresses_from_docs(docs)
     docs = replace_addresses_with_aliases_in_docs(docs, addresses)

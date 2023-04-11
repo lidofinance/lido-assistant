@@ -25,12 +25,15 @@ class AddressesCallbackManager(BaseCallbackHandler):
         pass
 
     def on_chain_start(self, serialized: Dict[str, Any], inputs: Dict[str, Any], **kwargs: Any) -> Any:
-        inputs["question"] = replace_addresses_with_aliases(inputs["question"], self.addresses)
+        inputs["question"] = replace_addresses_with_aliases(
+            inputs["question"], self.addresses)
         for message in inputs["history"]:
-            message.content = replace_addresses_with_aliases(message.content, self.addresses)
+            message.content = replace_addresses_with_aliases(
+                message.content, self.addresses)
 
     def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> Any:
-        outputs["answer"] = replace_aliases_with_addresses(outputs["answer"], self.addresses)
+        outputs["answer"] = replace_aliases_with_addresses(
+            outputs["answer"], self.addresses)
 
     def on_chain_error(self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any) -> Any:
         pass

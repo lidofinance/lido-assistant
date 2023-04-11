@@ -1,10 +1,10 @@
-from src.chat_model import chat
+from src.lido_agent import get_agent
 
 
 def run():
-    qa = chat()
+    agent = get_agent()
     while True:
-        q = input('Question: ')
-        if q == 'done':
+        q = input("Question: ")
+        if q == "done":
             break
-        print("AI: " + qa({"question": q})["answer"])
+        print("AI: " + agent.run(q))

@@ -30,7 +30,8 @@ class DiscordReader(discord.Client):
 
         if self.user in message.mentions or (message.reference and message.reference.resolved.author == self.user):
             name = message.author.name + "#" + message.author.discriminator
-            answer = self.chats[name](message.content).get("answer", "I don't know")
+            answer = self.chats[name](message.content).get(
+                "answer", "I don't know")
             await message.reply(answer)
 
 

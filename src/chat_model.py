@@ -34,7 +34,7 @@ def chat():
         ),
         memory=ConversationBufferWindowMemory(k=10, return_messages=True),
         prompt=qa_prompt,
-        verbose=True,
+        verbose=False,
         callback_manager=CallbackManager(handlers=[AddressesCallbackManager(addresses),
                                                    StdOutCallbackHandler()])
     )
