@@ -30,6 +30,7 @@ Actions and Action Inputs should always come in pairs. If you want to use a tool
 Do not include an action without an action input. You may not always need to use more than one action. Do not shorten the output of tools too much.
 
 Do not provide a response outside of the format above. If you do not know how to answer a question, your final answer should be "I don't know".
+You can group your thoughts together. If you have all the information you need from Observations, present your final answer in one go.
 
 Begin!
 

@@ -28,7 +28,7 @@ def get_tools():
         Tool(
             name="Price Feed",
             func=coinGeckoSearch,
-            description="useful for when you need to answer questions about the price of Lido DAO token. Returns the current price of Lido DAO token in USD"
+            description="useful for when you need to answer questions about the price of Lido DAO token. Returns the current price of Lido DAO token in USD. Source: CoinGecko"
         ),
         Tool(
             name="TVL",
