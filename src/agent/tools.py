@@ -13,6 +13,12 @@ def get_tools():
         )
         return res
 
+    def defiLlamaTVL(_):
+        res = requests.get(
+            f"https://api.llama.fi/tvl/lido"
+        )
+        return res
+
     tools = [
         Tool(
             name="Lido Documentation QA System",
@@ -22,8 +28,13 @@ def get_tools():
         Tool(
             name="Price Feed",
             func=coinGeckoSearch,
-            description="useful for when you need to answer questions about the price of Lido DAO token. Returns the current price of Lido DAO token in USD"
+            description="useful for when you need to answer questions about the price of Lido DAO token. Returns the current price of Lido DAO token in USD. Source: CoinGecko"
         ),
+        Tool(
+            name="TVL",
+            func=defiLlamaTVL,
+            description="returns the Total Value Locked (TVL) of Lido. Source: DefiLlama"
+        )
     ]
 
     return tools
